@@ -1,24 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  BookOpen,
-  Headphones,
-  Home,
-  ListChecks,
-  MessageSquareText,
-  NotebookPen,
-  Search,
-  Settings,
-  Sun,
-  Moon,
-  Trophy,
-  ChevronRight,
-  Sparkles,
-  GraduationCap,
-  Download,
-} from "lucide-react";
 
-// -------- Simple UI components --------
+// Simple UI components
 const Button = ({ className = "", children, ...props }) => (
   <button
     className={`px-4 py-2 rounded-2xl shadow hover:shadow-md transition font-medium ${className}`}
@@ -28,53 +11,16 @@ const Button = ({ className = "", children, ...props }) => (
   </button>
 );
 
-const Card = ({ className = "", children }) => (
+const Card = ({ className = "", children, ...props }) => (
   <div
     className={`rounded-2xl shadow p-5 bg-white/90 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 ${className}`}
+    {...props}
   >
     {children}
   </div>
 );
 
-const Input = ({ className = "", ...props }) => (
-  <input
-    className={`w-full px-3 py-2 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 outline-none focus:ring-2 focus:ring-indigo-400 ${className}`}
-    {...props}
-  />
-);
-
-// -------- Example Lesson Data --------
-const CURRICULUM = {
-  title: "Studio 1 – Module 1: C’est perso",
-  lessons: [
-    {
-      id: "u1",
-      title: "Unité 1 – Mon autoportrait",
-      goals: ["Talk about likes and dislikes", "Use regular –er verbs", "Use the definite article"],
-      vocab: [
-        { fr: "J’aime …", en: "I like …" },
-        { fr: "Je n’aime pas …", en: "I don’t like …" },
-        { fr: "Tu aimes …?", en: "Do you like …?" },
-      ],
-      grammar: {
-        title: "–er verbs (singular)",
-        notes: ["Je, tu, il/elle forms", "Use le, la, les before nouns"],
-        examples: [
-          { fr: "J’aime le cinéma.", en: "I like the cinema." },
-          { fr: "Elle n’aime pas les araignées.", en: "She doesn’t like spiders." },
-        ],
-      },
-      quiz: {
-        questions: [
-          { q: "Choose the correct article: ___ sport", options: ["le", "la", "les"], answer: 0 },
-          { q: "‘I don’t like’ is…", options: ["J’aime", "Je n’aime pas", "Tu aimes"], answer: 1 },
-        ],
-      },
-    },
-  ],
-};
-
-// -------- Components --------
+// Example flashcard
 const Flashcard = ({ item }) => {
   const [flip, setFlip] = useState(false);
   return (
@@ -88,22 +34,7 @@ const Flashcard = ({ item }) => {
   );
 };
 
-const GrammarBlock = ({ grammar }) => (
-  <Card>
-    <h4 className="font-semibold mb-2">{grammar.title}</h4>
-    <ul className="list-disc pl-5 text-sm space-y-1">
-      {grammar.notes.map((n, i) => <li key={i}>{n}</li>)}
-    </ul>
-    <div className="mt-3">
-      {grammar.examples.map((ex, i) => (
-        <div key={i} className="p-2 bg-zinc-50 dark:bg-zinc-800 rounded-xl mt-1">
-          <b>{ex.fr}</b> — {ex.en}
-        </div>
-      ))}
-    </div>
-  </Card>
-);
-
+// Quiz component
 const Quiz = ({ quiz }) => {
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
@@ -134,12 +65,106 @@ const Quiz = ({ quiz }) => {
   );
 };
 
-// -------- Main App --------
+// Full Curriculum
+const CURRICULUM = {
+  title: "Studio 1 – Module 1: C’est perso",
+  lessons: [
+    {
+      id: "u1",
+      title: "Unité 1 – Mon autoportrait",
+      goals: ["Talk about likes/dislikes", "Use regular –er verbs", "Use definite article"],
+      vocab: [
+        { fr: "J’aime …", en: "I like …" },
+        { fr: "Je n’aime pas …", en: "I don’t like …" },
+        { fr: "Tu aimes …?", en: "Do you like …?" },
+      ],
+      quiz: {
+        questions: [
+          { q: "‘I don’t like’ is…", options: ["J’aime", "Je n’aime pas", "Tu aimes"], answer: 1 },
+        ],
+      },
+    },
+    {
+      id: "u2",
+      title: "Unité 2 – Mon kit de survie",
+      goals: ["Talk about survival kit", "Use avoir", "Use un/une/des"],
+      vocab: [
+        { fr: "un portable", en: "a mobile phone" },
+        { fr: "une gourde", en: "a water bottle" },
+      ],
+      quiz: {
+        questions: [
+          { q: "Translate ‘une trousse’", options: ["a pencil case", "a phone", "a bottle"], answer: 0 },
+        ],
+      },
+    },
+    {
+      id: "u3",
+      title: "Unité 3 – Mon caractère",
+      goals: ["Talk about personality", "Use adjectives", "Understand agreements"],
+      vocab: [
+        { fr: "je suis sympa", en: "I am nice" },
+        { fr: "il est timide", en: "he is shy" },
+      ],
+      quiz: {
+        questions: [
+          { q: "Translate ‘je suis bavard(e)’", options: ["I am chatty", "I am tall", "I am happy"], answer: 0 },
+        ],
+      },
+    },
+    {
+      id: "u4",
+      title: "Unité 4 – Ma famille",
+      goals: ["Talk about family", "Use possessive adjectives"],
+      vocab: [
+        { fr: "ma mère", en: "my mother" },
+        { fr: "mon père", en: "my father" },
+        { fr: "mes frères", en: "my brothers" },
+      ],
+      quiz: {
+        questions: [
+          { q: "Translate ‘mon frère’", options: ["my brother", "my sister", "my dad"], answer: 0 },
+        ],
+      },
+    },
+    {
+      id: "u5",
+      title: "Unité 5 – Les animaux",
+      goals: ["Talk about pets", "Use plural nouns"],
+      vocab: [
+        { fr: "un chien", en: "a dog" },
+        { fr: "un chat", en: "a cat" },
+        { fr: "des poissons", en: "fish" },
+      ],
+      quiz: {
+        questions: [
+          { q: "Translate ‘un lapin’", options: ["a rabbit", "a cat", "a bird"], answer: 0 },
+        ],
+      },
+    },
+    {
+      id: "u6",
+      title: "Unité 6 – Mon anniversaire",
+      goals: ["Talk about birthday", "Say dates", "Use avoir for age"],
+      vocab: [
+        { fr: "mon anniversaire", en: "my birthday" },
+        { fr: "J’ai 12 ans", en: "I am 12 years old" },
+      ],
+      quiz: {
+        questions: [
+          { q: "Translate ‘J’ai 13 ans’", options: ["I am 13 years old", "My birthday is", "I am tired"], answer: 0 },
+        ],
+      },
+    },
+  ],
+};
+
+// Main App
 export default function App() {
   const [activeLesson, setActiveLesson] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-zinc-50 dark:from-zinc-950 dark:to-zinc-900 text-zinc-900 dark:text-zinc-50 p-6">
+    <div className="min-h-screen bg-gradient-to-b from-white to-zinc-50 p-6">
       <h1 className="text-3xl font-bold mb-4">French Learning Hub</h1>
       {!activeLesson ? (
         <div className="grid gap-4">
@@ -166,11 +191,9 @@ export default function App() {
           <div className="grid grid-cols-2 gap-3 mb-4">
             {activeLesson.vocab.map((item, idx) => <Flashcard key={idx} item={item} />)}
           </div>
-          <GrammarBlock grammar={activeLesson.grammar} />
           <Quiz quiz={activeLesson.quiz} />
         </div>
       )}
     </div>
   );
 }
-
