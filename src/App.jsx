@@ -164,4 +164,13 @@ export default function App() {
           </ul>
           <h3 className="font-semibold">Flashcards</h3>
           <div className="grid grid-cols-2 gap-3 mb-4">
-            {activeLesson.
+            {activeLesson.vocab.map((item, idx) => <Flashcard key={idx} item={item} />)}
+          </div>
+          <GrammarBlock grammar={activeLesson.grammar} />
+          <Quiz quiz={activeLesson.quiz} />
+        </div>
+      )}
+    </div>
+  );
+}
+
